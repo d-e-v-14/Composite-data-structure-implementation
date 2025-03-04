@@ -49,20 +49,33 @@ struct Node *addIntervals(struct Node *head,int start,int end){
 
 }
 
-void printtree(struct Node *head){
+void tabspace(int level){
+    for(int i=0;i<level;i++)
+        printf("\t");
+}
+
+
+
+void printtree(struct Node *head,int level){
+
+    
     if(head==NULL){
+        tabspace(level);
         printf("---<empty>---\n");
         return;
     }
+    tabspace(level);
+    printf("[%d ",(head->i->start));
+    printf(", %d]\n",(head->i->end));
     
-    printf("start: %d\n",(head->i->start));
-    printf("end: %d\n",(head->i->end));
-    
+    tabspace(level);
     printf("--left--\n");
-    printtree(head->left);
+    printtree(head->left,level+1);
     
+    tabspace(level);
     printf("--right--\n");
-    printtree(head->right);
+    printtree(head->right,level+1);
+    
     
     
 }
@@ -77,7 +90,7 @@ int main(){
     head = addIntervals(head,4,5);
     head = addIntervals(head,3,10);
     
-    printtree(head);
+    printtree(head,0);
     
     return 0;
 }
