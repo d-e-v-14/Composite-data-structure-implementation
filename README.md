@@ -23,7 +23,7 @@ The **Interval Merger** is a composite data structure implementation that mainta
 - Maintains the set of intervals in sorted and Non-Overlapping manner .
 - **Time Complexity:** `O(log n)` for insertion and merging using balanced trees.
 
-### `printtree()`
+### `printTree(Node)`
 - Returns the current set of non-overlapping/overlapping, merged intervals in ascending order.
 - **Time Complexity:** `O(n)` for retrieval.
 
@@ -42,14 +42,7 @@ The **Interval Merger** is a composite data structure implementation that mainta
 - Indents the given tree while printing, for better understanding.
 - **Time Complexity:** `O(1)` for insertion and merging using balanced trees or sorted lists.
 
-## Example Usage
-```python
-intervals = IntervalMerger()
-intervals.addInterval(1, 5)
-intervals.addInterval(6, 8)
-intervals.addInterval(4, 7)
-print(intervals.getIntervals())  # Output: [[1, 8]]
-```
+
 
 ## Complexity Analysis
 - **Time Complexity(Main Tasks):**
