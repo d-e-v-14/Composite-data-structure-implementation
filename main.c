@@ -125,22 +125,17 @@ int main(){
     
     while(1){
         printf("Enter your choice: ");
-
-        scanf("%d \n",&menu);
+        scanf("%d",&menu);
+        printf("\n");
         
         if(menu==1){
-            int n;
-            printf("How many pairs do you wish to insert?: ");
-            scanf("%d\n",&n);
-            
-            for(int i=0;i<n;i++){
                 int a,b;
-                printf("%d Pair: ",i+1);
-                scanf("%d %d\n",&a,&b);
+                printf("Enter Intervals: ");
+                scanf("%d %d",&a,&b);
+                printf("\n");
                 head=addIntervals(head,a,b);
                 head2=addMergedIntervals(head2,a,b);
-            }
-            printf("Task Completed!\n");
+                printf("Task Completed!\n");
 
         }else if(menu==2){
             printf("\n----Non-Merged Intervals----\n");
