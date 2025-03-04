@@ -16,7 +16,6 @@ struct Node{
   
 };
 
-
 struct Node *createNode(int start, int end){
     struct Node *node = (struct Node *)malloc(sizeof(struct Node));
     node->i=(interval *)malloc(sizeof(interval));
@@ -27,12 +26,14 @@ struct Node *createNode(int start, int end){
     
     return node;
 }
+
 bool overlap_bool(interval a, interval b){
     if(a.start<=b.end && b.start<=a.end){
         return true;
     }
     return false;
 }
+
 struct Node *addIntervals(struct Node *head,int start,int end){
     
     if(head==NULL){
@@ -49,10 +50,12 @@ struct Node *addIntervals(struct Node *head,int start,int end){
     return head;
 
 }
+
 void mergeIntervals(interval *a, interval b) {
     a->start=(a->start<b.start)?a->start:b.start;
     a->end=(a->end>b.end)?a->end:b.end;
 }
+
 struct Node *addMergedIntervals(struct Node *head,int start,int end){
     
     if(head==NULL){
@@ -72,18 +75,14 @@ struct Node *addMergedIntervals(struct Node *head,int start,int end){
         
     }
 
-    
-
     return head;
 
 }
-
 
 void tabspace(int level){
     for(int i=0;i<level;i++)
         printf("\t");
 }
-
 
 
 void printtree(struct Node *head,int level){
@@ -110,28 +109,56 @@ void printtree(struct Node *head,int level){
     
 }
 
-
-
 int main(){
     struct Node *head=NULL;
-    
-    printf("\n----Non-Merged Intervals----\n");
-    head = addIntervals(head,1,3);
-    head = addIntervals(head,2,6);
-    head = addIntervals(head,4,5);
-    head = addIntervals(head,3,10);
-    
-    printtree(head,0);
-    
-    printf("\n----Merged Intervals----\n");
-    
     struct Node *head2=NULL;
     
-    head2 = addMergedIntervals(head2,1,3);
-    head2 = addMergedIntervals(head2,2,6);
-    head2 = addMergedIntervals(head2,4,5);
-    head2 = addMergedIntervals(head2,3,10);
-    printtree(head2,0);
+    int menu;
+    printf("======================\n");
+    printf("         MENU         \n");
+    printf("======================\n");
+    printf("1.Add Interval\n");
+    printf("2.Print Non-Merged Intervals\n");
+    printf("3.Print Merged Intervals\n");
+    printf("4.Exit\n");
+    
+    
+    while(1){
+        printf("Enter your choice: ");
+
+        scanf("%d \n",&menu);
+        
+        if(menu==1){
+            int n;
+            printf("How many pairs do you wish to insert?: ");
+            scanf("%d\n",&n);
+            
+            for(int i=0;i<n;i++){
+                int a,b;
+                printf("%d Pair: ",i+1);
+                scanf("%d %d\n",&a,&b);
+                head=addIntervals(head,a,b);
+                head2=addMergedIntervals(head2,a,b);
+            }
+            printf("Task Completed!\n");
+
+        }else if(menu==2){
+            printf("\n----Non-Merged Intervals----\n");
+            printtree(head,0);
+
+        }else if(menu==3){
+            printf("\n----Merged Intervals----\n");
+            printtree(head2,0);
+
+        }else if(menu==4){
+            printf("\nExit Complete!");
+            break;
+        }else{
+            printf("Invalid Input!\n");
+
+        }
+
+    }
     
     return 0;
 }
