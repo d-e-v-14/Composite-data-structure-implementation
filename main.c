@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#define MAX_LENGTH 100
+#include<stdbool.h>
 
 typedef struct{
     int start;
@@ -10,7 +10,7 @@ typedef struct{
 
 struct Node{
     interval *i;
-    int max;
+
     struct Node *left;
     struct Node *right;
   
@@ -22,13 +22,17 @@ struct Node *createNode(int start, int end){
     node->i=(interval *)malloc(sizeof(interval));
     node->i->start=start;
     node->i->end=end;
-    node->max=end;
     node->left=NULL;
     node->right=NULL;
     
     return node;
 }
-
+bool overlap_bool(interval a, interval b){
+    if(a.start<=b.end && b.start<=a.end){
+        return true;
+    }
+    return false;
+}
 struct Node *addIntervals(struct Node *head,int start,int end){
     
     if(head==NULL){
@@ -40,14 +44,40 @@ struct Node *addIntervals(struct Node *head,int start,int end){
     }else{
         head->right=addIntervals(head->right,start,end);
     }
-    
-    if(head->max<end){
-        head->max=end;
-    }
+
     
     return head;
 
 }
+void mergeIntervals(interval *a, interval b) {
+    a->start=(a->start<b.start)?a->start:b.start;
+    a->end=(a->end>b.end)?a->end:b.end;
+}
+struct Node *addMergedIntervals(struct Node *head,int start,int end){
+    
+    if(head==NULL){
+        return createNode(start,end);
+    }
+    
+    interval temp={start,end};
+    
+    if(overlap_bool(*(head->i),temp)){
+        mergeIntervals(head->i,temp);
+        
+    }else if(start<head->i->start){
+        head->left=addIntervals(head->left,start,end);
+        
+    }else{
+        head->right=addIntervals(head->right,start,end);
+        
+    }
+
+    
+
+    return head;
+
+}
+
 
 void tabspace(int level){
     for(int i=0;i<level;i++)
@@ -58,7 +88,7 @@ void tabspace(int level){
 
 void printtree(struct Node *head,int level){
 
-    
+
     if(head==NULL){
         tabspace(level);
         printf("---<empty>---\n");
@@ -69,11 +99,11 @@ void printtree(struct Node *head,int level){
     printf(", %d]\n",(head->i->end));
     
     tabspace(level);
-    printf("--left--\n");
+    printf("|left|\n");
     printtree(head->left,level+1);
     
     tabspace(level);
-    printf("--right--\n");
+    printf("|right|\n");
     printtree(head->right,level+1);
     
     
@@ -81,16 +111,27 @@ void printtree(struct Node *head,int level){
 }
 
 
+
 int main(){
     struct Node *head=NULL;
     
-    
+    printf("\n----Non-Merged Intervals----\n");
     head = addIntervals(head,1,3);
     head = addIntervals(head,2,6);
     head = addIntervals(head,4,5);
     head = addIntervals(head,3,10);
     
     printtree(head,0);
+    
+    printf("\n----Merged Intervals----\n");
+    
+    struct Node *head2=NULL;
+    
+    head2 = addMergedIntervals(head2,1,3);
+    head2 = addMergedIntervals(head2,2,6);
+    head2 = addMergedIntervals(head2,4,5);
+    head2 = addMergedIntervals(head2,3,10);
+    printtree(head2,0);
     
     return 0;
 }
